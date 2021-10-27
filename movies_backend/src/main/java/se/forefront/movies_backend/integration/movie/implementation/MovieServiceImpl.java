@@ -69,4 +69,8 @@ public class MovieServiceImpl implements MovieService {
         return storageMapper.map(movieRepository.findFirst20ByOrderByRatingDesc());
     }
 
+    @Override
+    public List<Movie> getMoviesByGenre(String Genre) {
+        return storageMapper.map(movieRepository.findByGenreContains(Genre));
+    }
 }

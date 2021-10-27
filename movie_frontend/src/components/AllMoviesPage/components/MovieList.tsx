@@ -40,6 +40,7 @@ export const MovieList = (props: {
               genre={movie.genre}
               description={movie.description}
               rating={movie.rating}
+              imageUrl={movie.imageUrl}
               numberOfVotes={movie.numberOfVotes}
             />
             <Divider className={classes.divider} />

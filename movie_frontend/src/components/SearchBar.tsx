@@ -1,8 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import {
   Autocomplete,
+  Button,
   CircularProgress,
   createFilterOptions,
+  Grid,
+  IconButton,
   TextField,
 } from "@mui/material";
 import { IMovie } from "../interfaces/movieInterface";
@@ -12,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { ADD_MOVIE, get, MATCHING_MOVIES, post } from "../services/restService";
 import { makeStyles } from "@material-ui/core/styles";
 import { AddDialog } from "./AddDialog";
-import { Movie } from "@material-ui/icons";
+import defaultImg from "../images/avengers.jpeg";
 
 export interface IMovieOptionType {
   id: string;
@@ -34,8 +37,9 @@ export const SearchBar = () => {
   const [options, setOptions] = useState<readonly IMovie[]>([]);
   const [inputValue, setInputValue] = useState("Movies");
   const [loading, setLoading] = useState(false);
-  const [dialogValue, setDialogValue] = useState();
+  const [dialogValue, setDialogValue] = useState<IMovieOptionType>();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const autoCompleteRef = useRef(null);
   const classes = useStyles();
 
   useEffect(() => {
@@ -50,6 +54,7 @@ export const SearchBar = () => {
 
     const getMovies = async () => {
       setLoading(true);
+
       await get(MATCHING_MOVIES, inputValue).then((data) => {
         if (active) {
           setOptions(data === undefined ? [] : data);
@@ -69,22 +74,23 @@ export const SearchBar = () => {
     }
   }, [open]);
 
-  const handleSelect = (event: any, value: any) => {
-    if (value != null) {
-      if (!value.id) {
-        setDialogValue(value);
+  const handleSelect = (event: any, movie: any) => {
+    if (movie) {
+      if (!movie.id) {
+        setDialogValue(movie);
         setDialogOpen(true);
       } else {
         history.push({
-          pathname: `/movie/${value.id}`,
+          pathname: `/movie/${movie.id}`,
         });
       }
     }
-
     //Route to movie page
   };
   const handleAddMovie = async (movie: IMovie) => {
     setDialogOpen(false);
+
+    console.log(movie);
 
     await post(ADD_MOVIE, movie).then((data) => {
       console.log("sadfsadfsadf");
@@ -102,12 +108,11 @@ export const SearchBar = () => {
   return (
     <>
       <Autocomplete
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        freeSolo
         classes={classes}
-        id="free-solo"
+        id="blur-on-select"
+        freeSolo
+        blurOnSelect
+        clearOnBlur
         sx={{ width: 600 }}
         onOpen={() => {
           setOpen(true);
@@ -128,7 +133,7 @@ export const SearchBar = () => {
             filtered.push({
               inputValue: params.inputValue,
               id: "",
-              title: `Add " ${params.inputValue}"?`,
+              title: `Add "${params.inputValue}"?`,
               genre: "",
 
               description: "",
@@ -143,6 +148,18 @@ export const SearchBar = () => {
         }}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
+        }}
+        renderOption={(params, option) => {
+          return (
+            <span {...params}>
+              <img
+                src={option.imageUrl}
+                width="50px"
+                style={{ paddingRight: "20px" }}
+              />{" "}
+              {option.title}
+            </span>
+          );
         }}
         renderInput={(params) => (
           <TextField

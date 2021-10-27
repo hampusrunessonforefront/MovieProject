@@ -20,6 +20,8 @@ public interface MovieRepository extends JpaRepository<PcMovie, Long> {
 
     List<PcMovie> findFirst20ByOrderByRatingDesc();
 
+    List<PcMovie> findByGenreContains(String genre);
+
 }
 
 

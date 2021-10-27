@@ -4,6 +4,7 @@ import { Button, makeStyles } from "@material-ui/core";
 import { Divider, Grid, ListItem, ListItemButton } from "@mui/material";
 import { Rating } from "../../MoviePage/components/Rating";
 import { useHistory } from "react-router";
+import defaultImg from "../../../images/avengers.jpeg";
 
 export const MovieItem = (movie: IMovie) => {
   const history = useHistory();
@@ -16,16 +17,21 @@ export const MovieItem = (movie: IMovie) => {
     <>
       <ListItem>
         <ListItemButton onClick={handleClick}>
-          <Grid container direction="column" justifyContent="flex-start">
-            <h3>{movie.title}</h3>
-          </Grid>
-          <Grid container justifyContent="flex-end">
-            <div>
-              <Rating
-                rating={movie.rating}
-                numberOfVotes={movie.numberOfVotes}
-              ></Rating>
-            </div>
+          <Grid container direction="row">
+            <Grid item xs={2}>
+              <img src={movie.imageUrl ?? defaultImg} width="50px" />
+            </Grid>
+            <Grid item xs={6}>
+              <h3>{movie.title}</h3>
+            </Grid>
+            <Grid item xs={4}>
+              <div>
+                <Rating
+                  rating={movie.rating}
+                  numberOfVotes={movie.numberOfVotes}
+                ></Rating>
+              </div>
+            </Grid>
           </Grid>
         </ListItemButton>
       </ListItem>

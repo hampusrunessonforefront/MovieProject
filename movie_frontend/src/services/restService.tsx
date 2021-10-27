@@ -8,6 +8,7 @@ export const GET_MOVIE = "/api/movie/get";
 export const PATCH_MOVIE = "/api/movie/rating";
 export const GET_TOP_RATED_MOVIES = "/api/movie/topratedmovies";
 export const ADD_MOVIE = "/api/movie/add";
+export const GET_MOVIES_BY_GENRE = "/api/movie/bygenre";
 const DELETE_MOVIE = "/api/movie/delete";
 
 export const get = async (endpoint: string, paramValue?: string) => {

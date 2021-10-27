@@ -15,7 +15,6 @@ export const MoviePage = () => {
   useEffect(() => {
     const getMovie = async () => {
       const data = await get(GET_MOVIE, movieId);
-      console.log(data);
 
       setMovie(data === undefined ? undefined : data);
     };

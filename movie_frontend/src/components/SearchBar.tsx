@@ -1,109 +1,40 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Autocomplete,
-  Button,
   CircularProgress,
   createFilterOptions,
-  Grid,
-  IconButton,
   TextField,
 } from "@mui/material";
-import { IMovie } from "../interfaces/movieInterface";
+import { IMovieOptionType } from "../interfaces/movieInterface";
 
-import { useHistory } from "react-router-dom";
-
-import { ADD_MOVIE, get, MATCHING_MOVIES, post } from "../services/restService";
 import { makeStyles } from "@material-ui/core/styles";
 import { AddDialog } from "./AddDialog";
-import defaultImg from "../images/avengers.jpeg";
-
-export interface IMovieOptionType {
-  id: string;
-  inputValue?: string;
-  title: string;
-  genre: string;
-
-  description: string;
-  rating: number;
-  numberOfVotes: number;
-}
+import { useMovies } from "./SearchBarHook";
 
 const filter = createFilterOptions<IMovieOptionType>();
 
 export const SearchBar = () => {
-  const history = useHistory();
-  const [value, setValue] = useState<IMovie>();
+  const {
+    value,
+    options,
+    loading,
+    dialogValue,
+    dialogOpen,
+    handleSelect,
+    handleAddMovie,
+    handleClose,
+    handleNewInput,
+  } = useMovies();
+
   const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<readonly IMovie[]>([]);
-  const [inputValue, setInputValue] = useState("Movies");
-  const [loading, setLoading] = useState(false);
-  const [dialogValue, setDialogValue] = useState<IMovieOptionType>();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const autoCompleteRef = useRef(null);
+
   const classes = useStyles();
 
-  useEffect(() => {
-    let active = true;
-
-    if (inputValue.length < 3) {
-      // setOptions(value ? [value] : []);
-
-      setOptions([]);
-      return undefined;
-    }
-
-    const getMovies = async () => {
-      setLoading(true);
-
-      await get(MATCHING_MOVIES, inputValue).then((data) => {
-        if (active) {
-          setOptions(data === undefined ? [] : data);
-        }
-        setLoading(false);
-      });
-    };
-    getMovies();
-    return () => {
-      active = false;
-    };
-  }, [value, inputValue]);
-
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
-  const handleSelect = (event: any, movie: any) => {
-    if (movie) {
-      if (!movie.id) {
-        setDialogValue(movie);
-        setDialogOpen(true);
-      } else {
-        history.push({
-          pathname: `/movie/${movie.id}`,
-        });
-      }
-    }
-    //Route to movie page
-  };
-  const handleAddMovie = async (movie: IMovie) => {
-    setDialogOpen(false);
-
-    console.log(movie);
-
-    await post(ADD_MOVIE, movie).then((data) => {
-      console.log("sadfsadfsadf");
-
-      history.push({
-        pathname: `/movie/${data}`,
-      });
-    });
-  };
-
-  const handleClose = () => {
-    setDialogOpen(false);
-  };
+  // useEffect(() => {
+  //   if (!open) {
+  //     setOptions([]);
+  //   }
+  // }, [open]);
 
   return (
     <>
@@ -147,15 +78,16 @@ export const SearchBar = () => {
           handleSelect(event, value);
         }}
         onInputChange={(event, newInputValue) => {
-          setInputValue(newInputValue);
+          handleNewInput(newInputValue);
         }}
         renderOption={(params, option) => {
           return (
-            <span {...params}>
+            <span {...params} style={{ fontFamily: "Josefin Sans, cursive" }}>
               <img
                 src={option.imageUrl}
                 width="50px"
                 style={{ paddingRight: "20px" }}
+                alt="err"
               />{" "}
               {option.title}
             </span>
@@ -178,6 +110,7 @@ export const SearchBar = () => {
                 </Fragment>
               ),
             }}
+            style={{ fontFamily: "Josefin Sans, cursive" }}
           />
         )}
       />

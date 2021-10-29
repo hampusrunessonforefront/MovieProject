@@ -1,4 +1,4 @@
-import { Box, List, ListItem } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { MovieList } from "../AllMoviesPage/components/MovieList";
 import { IMovie } from "../../interfaces/movieInterface";
@@ -21,7 +21,7 @@ export const TopRatedPage = () => {
   }, []);
 
   const handleDelete = async (id: string) => {
-    setMovies(movies!.filter((movie) => movie.id != id));
+    setMovies(movies!.filter((movie) => movie.id !== id));
     await deleteMovie(id);
   };
 
@@ -33,7 +33,7 @@ export const TopRatedPage = () => {
       alignItems="center"
       minHeight="100vh"
     >
-      {movies != undefined && (
+      {movies !== undefined && (
         <MovieList
           handleDelete={handleDelete}
           movies={movies}

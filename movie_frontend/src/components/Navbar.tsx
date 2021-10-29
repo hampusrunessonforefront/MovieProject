@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { SearchBar } from "./SearchBar";
 import { Grid } from "@mui/material";
+
 type Props = {
   onMenuClick: () => void;
 };
@@ -30,7 +31,11 @@ export const Navbar = ({ onMenuClick }: Props) => {
             </IconButton>
           </Grid>
           <Grid item xs={3}>
-            <Typography variant="h4" color="initial">
+            <Typography
+              variant="h4"
+              color="initial"
+              style={{ fontFamily: "Josefin Sans, cursive" }}
+            >
               RottenBananas
             </Typography>
           </Grid>

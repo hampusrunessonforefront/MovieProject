@@ -59,8 +59,16 @@ public class MovieApiController extends BaseApiController {
         return this.movieServiceImpl.getTopRatedMovies();
     }
 
+
     @GetMapping("/movie/bygenre")
     public List<Movie> getMoviesByGenre(@RequestParam("value") String genre) {
         return this.movieServiceImpl.getMoviesByGenre(genre);
+    }
+
+
+    @GetMapping("/movie/random")
+    public List<Movie> getRandomMoviesByGenre() {
+        //DEN ÄR ÄR PAJ
+        return this.movieServiceImpl.getRandomMovies();
     }
 }

@@ -1,6 +1,7 @@
 package se.forefront.movies_backend.integration.movie.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import se.forefront.movies_backend.integration.movie.api.MovieService;
 import se.forefront.movies_backend.model.Movie;
@@ -66,11 +67,17 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getTopRatedMovies() {
-        return storageMapper.map(movieRepository.findFirst20ByOrderByRatingDesc());
+        return storageMapper.map(movieRepository.findFirst5ByOrderByRatingDesc());
     }
 
     @Override
     public List<Movie> getMoviesByGenre(String Genre) {
         return storageMapper.map(movieRepository.findByGenreContains(Genre));
+    }
+
+    @Override
+    public List<Movie> getRandomMovies() {
+        System.out.println("HELLOAAsDAsd");
+        return storageMapper.map(movieRepository.getRandomMovies());
     }
 }

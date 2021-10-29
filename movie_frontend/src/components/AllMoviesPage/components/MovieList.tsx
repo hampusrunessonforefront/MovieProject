@@ -1,15 +1,17 @@
 import { makeStyles } from "@material-ui/core";
-import React from "react";
+
 import { IMovie } from "../../../interfaces/movieInterface";
 import { MovieItem } from "./MovieItem";
 import { Divider, Grid, List } from "@mui/material";
 import { DeleteButton } from "./DeleteButton";
-import { deleteMovie } from "../../../services/restService";
-export const MovieList = (props: {
+
+interface movieListProps {
   movies: IMovie[];
   handleDelete(id: string): void;
   indexing?: boolean;
-}) => {
+}
+
+export const MovieList = (props: movieListProps) => {
   const checkOnBottom = (event: any) => {
     if (event.target.scrollTop === event.target.scrollHeight) {
       console.log("NU ÄR VI I BOTTEN");
@@ -18,30 +20,18 @@ export const MovieList = (props: {
 
   const classes = useStyles();
   return (
-    <List sx={{ width: "50%" }} onScroll={() => console.log("asdfsafasdf")}>
+    <List onScroll={() => console.log("asdfsafasdf")}>
       {props.movies.map((movie, index) => (
         <Grid
           container
-          spacing={2}
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          key={index}
+          spacing={4}
+          sx={{ display: "flex", alignItems: "center" }}
         >
-          {props.indexing && (
-            <Grid item xs={1}>
-              <h3>{index + 1}</h3>
-            </Grid>
-          )}
-          <Grid item xs={10}>
+          <Grid item xs={11}>
             <MovieItem
-              id={movie.id}
-              title={movie.title}
-              genre={movie.genre}
-              description={movie.description}
-              rating={movie.rating}
-              imageUrl={movie.imageUrl}
-              numberOfVotes={movie.numberOfVotes}
+              index={props.indexing ? index : undefined}
+              movie={movie}
+              handleDelete={props.handleDelete}
             />
             <Divider className={classes.divider} />
           </Grid>

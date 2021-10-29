@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 interface IDeleteButton {
   id: string;

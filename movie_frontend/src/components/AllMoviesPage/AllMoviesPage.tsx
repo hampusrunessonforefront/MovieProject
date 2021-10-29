@@ -1,13 +1,5 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  List,
-  ListItem,
-  MenuItem,
-  Select,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import { useEffect, useState } from "react";
 import { MovieList } from "./components/MovieList";
 import { IMovie } from "../../interfaces/movieInterface";
 import {
@@ -15,12 +7,11 @@ import {
   deleteMovie,
   get,
   GET_MOVIES_BY_GENRE,
-  GET_TOP_RATED_MOVIES,
 } from "../../services/restService";
 
 export const AllMoviesPage = () => {
   const [movies, setMovies] = useState<IMovie[]>();
-  const [test, setTest] = useState();
+
   const [genre, setGenre] = useState<string>();
   useEffect(() => {
     const fetch = async () => {
@@ -31,7 +22,7 @@ export const AllMoviesPage = () => {
   }, []);
 
   const handleDelete = async (id: string) => {
-    setMovies(movies!.filter((movie) => movie.id != id));
+    setMovies(movies!.filter((movie) => movie.id !== id));
     await deleteMovie(id);
   };
 
@@ -46,37 +37,45 @@ export const AllMoviesPage = () => {
   }, [genre]);
 
   return (
-    <Box
-      sx={{ width: "100%", height: "100%" }}
+    <Grid
+      container
+      spacing={2}
       display="flex"
       flexDirection="row"
       justifyContent="center"
-      minHeight="100vh"
+      alignContent="center"
     >
-      {movies != undefined && (
-        <MovieList movies={movies} handleDelete={handleDelete}></MovieList>
-      )}
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label">Genre</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={genre ?? " "}
-          label="Genre"
-          MenuProps={MenuProps}
-          autoWidth
-          onChange={(event) => {
-            setGenre(event.target.value as string);
-          }}
-        >
-          {genres.map((item, index) => (
-            <MenuItem key={index} value={item.genre}>
-              {item.genre}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
+      <Grid item xs={2}></Grid>
+      <Grid item xs={8}>
+        <div>
+          {movies !== undefined && (
+            <MovieList movies={movies} handleDelete={handleDelete}></MovieList>
+          )}
+        </div>
+      </Grid>
+      <Grid item xs={2}>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-simple-select-label">Genre</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={genre ?? " "}
+            label="Genre"
+            MenuProps={MenuProps}
+            autoWidth
+            onChange={(event) => {
+              setGenre(event.target.value as string);
+            }}
+          >
+            {genres.map((item, index) => (
+              <MenuItem key={index} value={item.genre}>
+                {item.genre}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+    </Grid>
   );
 };
 

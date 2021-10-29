@@ -9,7 +9,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { IMovieOptionType } from "./SearchBar";
+import { IMovieOptionType } from "../interfaces/movieInterface";
 
 interface IDialog {
   startValues: IMovieOptionType;
@@ -20,18 +20,13 @@ interface IDialog {
 
 export const AddDialog = (props: IDialog) => {
   const [dialogValue, setDialogValue] = useState<IMovie>();
-  const [error, setError] = useState({
-    title: false,
-    description: false,
-    genre: false,
-  });
 
   useEffect(() => {
     setDialogValue({
       ...dialogValue!,
       title: props.startValues.inputValue!,
     });
-  }, [props.startValues]);
+  }, [props.startValues, dialogValue]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

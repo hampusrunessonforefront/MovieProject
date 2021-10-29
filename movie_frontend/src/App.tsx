@@ -1,9 +1,7 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { HomePage } from "./components/HomePage";
-import { MoviePage } from "./components/MoviePage";
+import { HomePage } from "./components/HomePage/HomePage";
+import { MoviePage } from "./components/MoviePage/MoviePage";
 import { NavbarAndMenuDrawer } from "./components/NavBarAndMenuDrawer";
 import { ThemeProvider } from "@mui/material";
 

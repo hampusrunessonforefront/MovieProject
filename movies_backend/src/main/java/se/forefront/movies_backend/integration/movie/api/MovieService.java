@@ -22,4 +22,6 @@ public interface MovieService {
     List<Movie> getTopRatedMovies();
 
     List<Movie> getMoviesByGenre(String Genre);
+
+    List<Movie> getRandomMovies();
 }
